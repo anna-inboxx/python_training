@@ -15,7 +15,7 @@ class AddNewContact(unittest.TestCase):
     def test_add_new_contact(self):
         driver = self.driver
         self.open_home_page(driver)
-        self.login(driver)
+        self.login(driver, username="admin", password="secret")
         self.create_new_contact(driver)
         self.return_to_edit_entry_page(driver)
         self.logout(driver)
@@ -57,12 +57,12 @@ class AddNewContact(unittest.TestCase):
         # submit new contact creation
         driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def login(self, driver):
+    def login(self, driver, username, password):
         driver.find_element_by_name("user").clear()
-        driver.find_element_by_name("user").send_keys("admin")
+        driver.find_element_by_name("user").send_keys(username)
         driver.find_element_by_name("pass").click()
         driver.find_element_by_name("pass").clear()
-        driver.find_element_by_name("pass").send_keys("secret")
+        driver.find_element_by_name("pass").send_keys(password)
         driver.find_element_by_xpath("//input[@value='Login']").click()
 
     def open_home_page(self, driver):
