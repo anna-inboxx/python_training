@@ -26,24 +26,24 @@ class AddNewContact(unittest.TestCase):
     def return_to_edit_entry_page(self, driver):
         driver.find_element_by_link_text("home page").click()
 
-    def create_new_contact(self, driver):
+    def create_new_contact(self, driver, name="Tom", middlename="John", lastname="Smith", homephone="89337774448",
+                           email="djdjk@dljkk.ru"):
         # init new contact creation
         driver.find_element_by_link_text("add new").click()
         # fill in contact data
         driver.find_element_by_name("firstname").click()
         driver.find_element_by_name("firstname").clear()
-        driver.find_element_by_name("firstname").send_keys("Tom")
+        driver.find_element_by_name("firstname").send_keys(name)
         driver.find_element_by_name("middlename").clear()
-        driver.find_element_by_name("middlename").send_keys("John")
+        driver.find_element_by_name("middlename").send_keys(middlename)
         driver.find_element_by_name("lastname").clear()
-        driver.find_element_by_name("lastname").send_keys("Smith")
-        driver.find_element_by_name("title").click()
+        driver.find_element_by_name("lastname").send_keys(lastname)
         driver.find_element_by_name("home").click()
         driver.find_element_by_name("home").clear()
-        driver.find_element_by_name("home").send_keys("89337774448")
+        driver.find_element_by_name("home").send_keys(homephone)
         driver.find_element_by_name("email").click()
         driver.find_element_by_name("email").clear()
-        driver.find_element_by_name("email").send_keys("djdjk@dljkk.ru")
+        driver.find_element_by_name("email").send_keys(email)
         driver.find_element_by_name("bday").click()
         Select(driver.find_element_by_name("bday")).select_by_visible_text("17")
         driver.find_element_by_name("bday").click()
