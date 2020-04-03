@@ -14,20 +14,22 @@ class AddNewContact(unittest.TestCase):
         self.driver.implicitly_wait(30)
     
     def test_add_new_contact(self):
-        driver = self.driver
-        self.open_home_page(driver)
-        self.login(driver, username="admin", password="secret")
-        self.create_new_contact(driver, Contact(name="Tom", middlename="John",lastname= "Smith", homephone="89337774448", email="djdjk@dljkk.ru"))
-        self.return_to_edit_entry_page(driver)
-        self.logout(driver)
+        self.open_home_page()
+        self.login(username="admin", password="secret")
+        self.create_new_contact( Contact(name="Tom", middlename="John",lastname= "Smith", homephone="89337774448", email="djdjk@dljkk.ru"))
+        self.return_to_edit_entry_page()
+        self.logout()
 
-    def logout(self, driver):
+    def logout(self):
+        driver = self.driver
         driver.find_element_by_link_text("Logout").click()
 
-    def return_to_edit_entry_page(self, driver):
+    def return_to_edit_entry_page(self):
+        driver = self.driver
         driver.find_element_by_link_text("home page").click()
 
-    def create_new_contact(self, driver, contact):
+    def create_new_contact(self, contact):
+        driver = self.driver
         # init new contact creation
         driver.find_element_by_link_text("add new").click()
         # fill in contact data
@@ -47,7 +49,8 @@ class AddNewContact(unittest.TestCase):
         # submit new contact creation
         driver.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def login(self, driver, username, password):
+    def login(self, username, password):
+        driver = self.driver
         driver.find_element_by_name("user").clear()
         driver.find_element_by_name("user").send_keys(username)
         driver.find_element_by_name("pass").click()
@@ -55,7 +58,8 @@ class AddNewContact(unittest.TestCase):
         driver.find_element_by_name("pass").send_keys(password)
         driver.find_element_by_xpath("//input[@value='Login']").click()
 
-    def open_home_page(self, driver):
+    def open_home_page(self):
+        driver = self.driver
         driver.get("https://localhost/addressbook/index.php")
 
     def is_element_present(self, how, what):
