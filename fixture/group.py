@@ -23,7 +23,6 @@ class GroupHelper:
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
-        self.return_to_group_page()
 
     def delete_first_group(self):
         wd = self.app.wd
