@@ -27,3 +27,11 @@ class ContactHelper:
         wd.find_element_by_name("email").send_keys(contact.email)
         # submit new contact creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+
+    def del_all_contacts(self):
+        # select all contacts
+        wd.find_element_by_id("MassCB").click()
+        # click delete
+        wd.find_element_by_xpath("//input[@value='Delete']").click()
+        # confirm by pressing ok
+
