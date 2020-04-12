@@ -37,3 +37,23 @@ class ContactHelper:
         # confirm by pressing ok
         wd.switch_to_alert().accept()
 
+    def edit_contact(self):
+        wd = self.app.wd
+        # select contact by ID
+        wd.find_element_by_id("37").click()
+        # edit contact
+        wd.find_element_by_xpath("(//img[@alt='Edit'])[2]").click()
+        wd.find_element_by_name("firstname").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys("Tim2")
+        wd.find_element_by_name("middlename").click()
+        wd.find_element_by_name("middlename").clear()
+        wd.find_element_by_name("middlename").send_keys("John2")
+        wd.find_element_by_name("lastname").click()
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys("Smuth2")
+        # click update
+        wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
+
+
+
