@@ -28,10 +28,12 @@ class ContactHelper:
         # submit new contact creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
-    def del_all_contacts(self):
-        # select all contacts
-        wd.find_element_by_id("MassCB").click()
+    def del_contact(self):
+        wd = self.app.wd
+        # select contact by ID
+        wd.find_element_by_id("39").click()
         # click delete
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # confirm by pressing ok
+        wd.switch_to_alert().accept()
 
