@@ -40,7 +40,7 @@ class ContactHelper:
     def edit_contact(self):
         wd = self.app.wd
         # select contact by ID
-        wd.find_element_by_id("37").click()
+        wd.find_element_by_name("selected[]").click()
         # edit contact
         wd.find_element_by_xpath("(//img[@alt='Edit'])[2]").click()
         wd.find_element_by_name("firstname").click()
