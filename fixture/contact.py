@@ -31,7 +31,7 @@ class ContactHelper:
     def del_contact(self):
         wd = self.app.wd
         # select contact by ID
-        wd.find_element_by_id("39").click()
+        wd.find_element_by_name("selected[]").click()
         # click delete
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # confirm by pressing ok
