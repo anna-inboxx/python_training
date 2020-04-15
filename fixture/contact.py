@@ -27,6 +27,7 @@ class ContactHelper:
         wd.find_element_by_name("email").send_keys(contact.email)
         # submit new contact creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
+        self.return_to_edit_entry_page()
 
     def del_contact(self):
         wd = self.app.wd
@@ -36,6 +37,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # confirm by pressing ok
         wd.switch_to_alert().accept()
+
 
     def edit_contact(self):
         wd = self.app.wd
@@ -57,8 +59,8 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        self.app.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
+
 
 
 
