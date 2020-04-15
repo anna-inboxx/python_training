@@ -30,7 +30,7 @@ class ContactHelper:
 
     def del_contact(self):
         wd = self.app.wd
-        # select contact by ID
+        # select contact
         wd.find_element_by_name("selected[]").click()
         # click delete
         wd.find_element_by_xpath("//input[@value='Delete']").click()
@@ -39,7 +39,7 @@ class ContactHelper:
 
     def edit_contact(self):
         wd = self.app.wd
-        # select contact by ID
+        # select contact
         wd.find_element_by_name("selected[]").click()
         # edit contact
         wd.find_element_by_xpath("(//img[@alt='Edit'])[2]").click()
@@ -54,6 +54,13 @@ class ContactHelper:
         wd.find_element_by_name("lastname").send_keys("Smuth2")
         # click update
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
+
+    def count(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        return len(wd.find_elements_by_name("selected[]"))
+
+
 
 
 
