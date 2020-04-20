@@ -38,19 +38,6 @@ class ContactHelper:
         # confirm by pressing ok
         wd.switch_to_alert().accept()
 
-    #def fill_new_values(self):
-     #   wd = self.app.wd
-      #  wd.find_element_by_name("firstname").click()
-       # wd.find_element_by_name("firstname").clear()
-       # wd.find_element_by_name("firstname").send_keys("Tim2")
-        #wd.find_element_by_name("middlename").click()
-        #wd.find_element_by_name("middlename").clear()
-        #wd.find_element_by_name("middlename").send_keys("John2")
-        #wd.find_element_by_name("lastname").click()
-        #wd.find_element_by_name("lastname").clear()
-        #wd.find_element_by_name("lastname").send_keys("Smuth2")
-
-
     def fill_contact_form(self,contact):
         wd = self.app.wd
         self.change_field_value("name",contact.name)
@@ -85,6 +72,7 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
+        self.return_to_edit_entry_page()
         return len(wd.find_elements_by_name("selected[]"))
 
 
