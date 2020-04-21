@@ -1,3 +1,4 @@
+from model.group import Group
 
 class GroupHelper:
 
@@ -87,10 +88,21 @@ class GroupHelper:
         wd.find_element_by_name("update").click()
         self.return_to_group_page()
 
-
-
-
     def count(self):
         wd = self.app.wd
         self.open_groups_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_group_list(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        groups = []
+        #запрос на получение нужных элементов
+        for element in wd.find_elements_by_css_selector("span.group"):
+            # получаем текст
+            text = element.text
+            #получаем идентификатор - внутри элемента span находим другой элемент, кот имеет имя селектед, т.е. чекбокс нах-ся внутри элемента спан, и у этого чекбокса полуаем значение атрибута вэлью
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            #по этим двум свойствам мы строим объект типа групп и добавить его в список, кот будет возвращаться
+            groups.append(Group(name=text, id=id))
+        return groups
