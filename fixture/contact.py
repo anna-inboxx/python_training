@@ -72,6 +72,7 @@ class ContactHelper:
         self.return_to_edit_entry_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+
     def get_contact_list(self):
         wd = self.app.wd
         self.return_to_edit_entry_page()
