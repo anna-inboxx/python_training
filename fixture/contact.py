@@ -78,23 +78,15 @@ class ContactHelper:
         self.return_to_edit_entry_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+
     def get_contact_list(self):
         wd = self.app.wd
         self.return_to_edit_entry_page()
-        list = []
-        for element in wd.find_elements_by_css_selector("tr"):
-            # получаем текст
-            text = element.text
-            #получаем идентификатор - внутри элемента span находим другой элемент, кот имеет имя селектед, т.е. чекбокс нах-ся внутри элемента спан, и у этого чекбокса полуаем значение атрибута вэлью
-            # ошибка в селектед
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            #по этим двум свойствам мы строим объект типа групп и добавить его в список, кот будет возвращаться
-            list.append(Contact(name=text, id=id))
-        return list
-
-
-
-
-
-
-
+        cells = []
+        For row in wd.find_elements_by_name("entry"):
+            cells = row.find_elements_by_tag_name("td")
+            lastname = cells[1].text
+            name = cells[2].text
+            id = cells[0].find_element_by_name("selected[]").get_attribute("value")
+            cells.append(Contact(name=name,lastname=lastname,id=id))
+        return cells
