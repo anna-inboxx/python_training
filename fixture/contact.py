@@ -22,12 +22,6 @@ class ContactHelper:
         wd.find_element_by_name("middlename").send_keys(contact.middlename)
         wd.find_element_by_name("lastname").clear()
         wd.find_element_by_name("lastname").send_keys(contact.lastname)
-        wd.find_element_by_name("home").click()
-        wd.find_element_by_name("home").clear()
-        wd.find_element_by_name("home").send_keys(contact.homephone)
-        wd.find_element_by_name("email").click()
-        wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(contact.email)
         # submit new contact creation
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
         self.return_to_edit_entry_page()
@@ -78,15 +72,14 @@ class ContactHelper:
         self.return_to_edit_entry_page()
         return len(wd.find_elements_by_name("selected[]"))
 
-
     def get_contact_list(self):
         wd = self.app.wd
         self.return_to_edit_entry_page()
         cells = []
-        For row in wd.find_elements_by_name("entry"):
+        for row in wd.find_elements_by_name("entry"):
             cells = row.find_elements_by_tag_name("td")
             lastname = cells[1].text
             name = cells[2].text
             id = cells[0].find_element_by_name("selected[]").get_attribute("value")
-            cells.append(Contact(name=name,lastname=lastname,id=id))
+            cells.append(Contact(name=name, lastname=lastname, id=id))
         return cells
