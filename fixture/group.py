@@ -97,7 +97,7 @@ class GroupHelper:
         wd = self.app.wd
         self.open_groups_page()
         groups = []
-        #запрос на получение нужных элементов
+        #запуск цикла через for in в диапазоне range = wd, после : указываем действия, кот будут выполняться при каждом проходе этого цикла
         for element in wd.find_elements_by_css_selector("span.group"):
             # получаем текст
             text = element.text
