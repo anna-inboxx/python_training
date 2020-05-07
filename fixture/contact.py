@@ -75,15 +75,14 @@ class ContactHelper:
         wd = self.app.wd
         self.return_to_edit_entry_page()
         rows = wd.find_elements_by_name("entry")
-        cells = []
+        contacts = []
         for row in rows:
             cells = row.find_elements_by_tag_name("td")
             lastname = cells[1].text
             name = cells[2].text
             id = cells[0].find_element_by_name("selected[]").get_attribute("value")
-            cells.append(Contact(name=name, lastname=lastname, id=id))
-        return cells
-
+            contacts.append(Contact(name=name, lastname=lastname, id=id))
+        return contacts
 
 
 
