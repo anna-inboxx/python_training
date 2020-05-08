@@ -99,7 +99,7 @@ class ContactHelper:
                 lastname = cells[1].text
                 name = cells[2].text
                 id = cells[0].find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(name=name, lastname=lastname, id=id))
+                self.contact_cache.append(Contact(lastname=lastname, name=name, id=id))
         return list(self.contact_cache)
 
 

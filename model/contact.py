@@ -11,9 +11,8 @@ class Contact:
         self.email = email
         self.id = id
 
-
     def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.name == other.name and self.lastname == other.lastname
+        return (self.id is None or other.id is None or self.id == other.id) and (self.name is None or other.name is None or self.name == other.name) and self.lastname == other.lastname
 
     # функция, кот опеределяет как будет выглядеть наш объект при выводе на консоль
     def __repr__(self):
