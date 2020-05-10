@@ -1,4 +1,5 @@
 from model.contact import Contact
+import re
 
 
 class ContactHelper:
@@ -104,6 +105,15 @@ class ContactHelper:
                                                  workphone=all_phones[2]))
         return list(self.contact_cache)
 
+    def get_contact_from_view_page(self,index):
+        wd = self.app.wd
+        self.open_contact_to_view_by_index(index)
+        #получаем весь блок инфы с детализ страницы
+        text = wd.find_element_by_id("content").text
+        homephone = re.search("H:(.*)",text).group(1)
+        mobilephone = re.search("M:(.*)", text).group(1)
+        workphone = re.search("W:(.*)", text).group(1)
+        return Contact(homephone=homephone, mobilephone=mobilephone, workphone=workphone)
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
