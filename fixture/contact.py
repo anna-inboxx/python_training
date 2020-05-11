@@ -99,10 +99,8 @@ class ContactHelper:
                 lastname = cells[1].text
                 name = cells[2].text
                 id = cells[0].find_element_by_name("selected[]").get_attribute("value")
-                all_phones = cells[5].text.splitlines()
-                self.contact_cache.append(Contact(name=name, lastname=lastname, id=id,
-                                                 homephone=all_phones[0], mobilephone=all_phones[1],
-                                                 workphone=all_phones[2]))
+                all_phones = cells[5].text
+                self.contact_cache.append(Contact(name=name, lastname=lastname, id=id, all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
     def get_contact_from_view_page(self,index):
@@ -110,9 +108,9 @@ class ContactHelper:
         self.open_contact_to_view_by_index(index)
         #получаем весь блок инфы с детализ страницы
         text = wd.find_element_by_id("content").text
-        homephone = re.search("H:(.*)",text).group(1)
-        mobilephone = re.search("M:(.*)", text).group(1)
-        workphone = re.search("W:(.*)", text).group(1)
+        homephone = re.search("H: (.*)", text).group(1)
+        mobilephone = re.search("M: (.*)", text).group(1)
+        workphone = re.search("W: (.*)", text).group(1)
         return Contact(homephone=homephone, mobilephone=mobilephone, workphone=workphone)
 
     def open_contact_to_edit_by_index(self, index):
