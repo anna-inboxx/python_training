@@ -98,10 +98,11 @@ class ContactHelper:
                 cells = row.find_elements_by_tag_name("td")
                 lastname = cells[1].text
                 name = cells[2].text
+                address = cells[3].text
                 id = cells[0].find_element_by_name("selected[]").get_attribute("value")
                 all_phones = cells[5].text
                 all_emails = cells[4].text
-                self.contact_cache.append(Contact(name=name, lastname=lastname, id=id, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails))
+                self.contact_cache.append(Contact(name=name, lastname=lastname, id=id, address=address, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails))
         return list(self.contact_cache)
 
     def get_contact_from_view_page(self,index):
@@ -137,6 +138,7 @@ class ContactHelper:
         name = wd.find_element_by_name("firstname").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
         homephone = wd.find_element_by_name("home").get_attribute("value")
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
