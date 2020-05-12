@@ -14,7 +14,7 @@ class Group:
 
     # функция, кот опеределяет как будет выглядеть наш объект при выводе на консоль
     def __repr__(self):
-        return "%s:%s" % (self.id, self.name)
+        return "%s:%s:%s:%s" % (self.id, self.name, self.header, self.footer)
 
     #пишем правило (ключ для сравнения) если присвоено id, то берем его, если None, то maxsize
     def id_or_max(self):
