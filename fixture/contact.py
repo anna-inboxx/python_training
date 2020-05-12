@@ -71,16 +71,6 @@ class ContactHelper:
         self.modify_contact_by_index(0)
         self.contact_cache = None
 
-    def modify_contact_by_index(self,index, new_contact_data):
-         wd = self.app.wd
-         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
-            # delete and put new values
-         self.fill_contact_form(new_contact_data)
-            # click update
-         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
-         wd.find_element_by_link_text("home page").click()
-         self.contact_cache = None
-
     def count(self):
         wd = self.app.wd
         self.return_to_edit_entry_page()
@@ -103,6 +93,17 @@ class ContactHelper:
                 all_emails = cells[4].text
                 self.contact_cache.append(Contact(name=name, lastname=lastname, id=id, address=address, all_phones_from_home_page=all_phones, all_emails_from_home_page=all_emails))
         return list(self.contact_cache)
+
+
+    def modify_contact_by_index(self,index, new_contact_data):
+         wd = self.app.wd
+         wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+            # delete and put new values
+         self.fill_contact_form(new_contact_data)
+            # click update
+         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
+         wd.find_element_by_link_text("home page").click()
+         self.contact_cache = None
 
     def get_contact_from_view_page(self,index):
         wd = self.app.wd
