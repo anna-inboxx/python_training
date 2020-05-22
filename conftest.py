@@ -5,6 +5,8 @@ import os.path
 import importlib
 import jsonpickle
 
+from fixture.db import DbFixture
+
 fixture = None
 target = None
 
@@ -34,7 +36,7 @@ def app(request):
     browser = request.config.getoption("--browser")
     web_config = load_config(request.config.getoption("--target"))['web']
     if fixture is None or not fixture.is_valid():
-        fixture = Application(browser=browser, base_url=target['baseUrl'])
+        fixture = Application(browser=browser, base_url=web_config['baseUrl'])
     fixture.session.ensure_login(username=web_config['username'], password=web_config['password'])
     return fixture
 
