@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
 import pytest
-from data.add_contacts import constant as testdata
+from data.contacts import constant as testdata
 
 
 @pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
@@ -12,3 +12,18 @@ def test_add_new_contact(app,contact):
     assert len(old_contacts)+1 == len(new_contacts)
     old_contacts.append(contact)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+
+
+def test_add_contact_data(app, db, json_contacts, check_ui):
+    contact = json_contacts
+    old_contacts = db.get_contact_list()
+    app.contact.create_new_contact(contact)
+    new_contacts = db.get_contact_list()
+    assert len(old_contacts)+1 == len(new_contacts)
+    old_contacts.append(contact)
+    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+    if check_ui:
+        def clean(contact):
+            return Contact(id=contact.id, name=contact.firstname.strip())
+        new_contacts = map(clean, db.get_contact_list())
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
