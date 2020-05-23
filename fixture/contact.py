@@ -53,7 +53,7 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         self.contact_cache = None
 
-
+# неверный селектор?
     def select_contact_by_id(self,id):
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
