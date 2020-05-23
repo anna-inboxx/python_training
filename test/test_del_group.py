@@ -1,6 +1,6 @@
 from model.group import Group
 import random
-
+# тест падает, надо добавить функцию сплит для удаления пробелов fixtur/db
 
 def test_delete_some_group(app, db, check_ui):
     if len(db.get_group_list()) == 0:
@@ -13,4 +13,7 @@ def test_delete_some_group(app, db, check_ui):
     old_groups.remove(group)
     assert old_groups == new_groups
     if check_ui:
+        def clean(group):
+            return Group(id=group.id, name=group.name.strip())
+        new_groups = map(clean, db.get_group_list())
         assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_group_list(),key=Group.id_or_max)
