@@ -1,6 +1,5 @@
 from model.group import Group
 import random
-# тест падает, надо добавить функцию сплит для удаления пробелов fixtur/db
 
 def test_delete_some_group(app, db, check_ui):
     if len(db.get_group_list()) == 0:
