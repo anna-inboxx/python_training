@@ -1,6 +1,6 @@
 from model.contact import Contact
 import random
-# неправильно указан элемент для поиска группы по айди
+# неправильно указан элемент для поиска группы по айди депрекейтед?
 
 def test_del_contact(app, db, check_ui):
     if len(db.get_contact_list()) == 0:

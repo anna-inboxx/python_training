@@ -106,7 +106,6 @@ class GroupHelper:
         return list(self.group_cache)
 
 
-
     def delete_group_by_id(self, id):
         wd = self.app.wd
         self.open_groups_page()
@@ -121,7 +120,7 @@ class GroupHelper:
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
 
-    def modify_group_by_index(self,index,new_group_data):
+    def modify_group_by_id(self,index,new_group_data):
         wd = self.app.wd
         self.open_groups_page()
         self.select_group_by_index(index)

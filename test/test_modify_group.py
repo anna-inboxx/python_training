@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from model.group import Group
-from random import randrange
+import random
 # добавила списки из бд, подумать как реализовать метод по поиску id
+
 def test_modify_group_name(app, db):
     if len(db.get_group_list()) == 0:
         app.group.create(Group(name="testdel", header="test", footer="test"))
@@ -14,6 +15,36 @@ def test_modify_group_name(app, db):
     new_groups = db.get_group_list()
     assert len(old_groups) == len(new_groups)
     old_groups[index] = group
+    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+
+
+def test_delete_some_group(app, db, check_ui):
+    if len(db.get_group_list()) == 0:
+        app.group.create(Group(name="testdel", header="test", footer="test"))
+    old_groups = db.get_group_list()
+    group = random.choice(old_groups)
+    app.group.delete_group_by_id(group.id)
+    new_groups = db.get_group_list()
+    assert len(old_groups) - 1 == len(new_groups)
+    old_groups.remove(group)
+    assert old_groups == new_groups
+    if check_ui:
+        def clean(group):
+            return Group(id=group.id, name=group.name.strip())
+        new_groups = map(clean, db.get_group_list())
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_group_list(),key=Group.id_or_max)
+
+# реализовать метод моддифай
+def test_modify_group_name(app, db):
+    if len(db.get_group_list()) == 0:
+        app.group.create(Group(name="testdel", header="test", footer="test"))
+    old_groups = db.get_group_list()
+    group = random.choice(old_groups)
+    group = Group(name="NEW test_modify")
+    app.group.modify_group_by_id(group.id)
+    new_groups = db.get_group_list()
+    assert len(old_groups) == len(new_groups)
+
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
 
