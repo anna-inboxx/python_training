@@ -16,4 +16,4 @@ def test_del_contact(app, db, check_ui):
         def clean(group):
             return Group(id=group.id, name=group.name.strip())
         new_groups = map(clean, db.get_group_list())
-        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_group_list(),key=Group.id_or_max)
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_group_list(), key=Group.id_or_max)
