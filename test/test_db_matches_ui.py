@@ -17,7 +17,7 @@ def test_group_list(app, db):
 def test_contact_list(app, db):
     ui_list = app.contact.get_contact_list()
     def clean(contact):
-        return Contact,h(id=contact.id, name=contact.firstname.strip())
+        return Contact(id=contact.id, name=contact.firstname.strip())
     db_list = map(clean, db.get_contact_list())
     assert sorted(ui_list, key=Contact.id_or_max) == sorted(db_list, key=Contact.id_or_max)
 

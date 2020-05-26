@@ -1,5 +1,6 @@
 from model.contact import Contact
 import re
+from selenium.webdriver.support.ui import Select
 
 
 class ContactHelper:
@@ -46,12 +47,14 @@ class ContactHelper:
 
     def del_contact_by_id(self,id):
         wd = self.app.wd
+        self.return_to_edit_entry_page()
         self.select_contact_by_id(id)
         # click delete
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # confirm by pressing ok
         wd.switch_to_alert().accept()
         self.contact_cache = None
+
 
 # неверный селектор?
     def select_contact_by_id(self,id):
@@ -120,6 +123,7 @@ class ContactHelper:
          wd.find_element_by_link_text("home page").click()
          self.contact_cache = None
 
+
     def get_contact_from_view_page(self,index):
         wd = self.app.wd
         self.open_contact_to_view_by_index(index)
@@ -164,4 +168,30 @@ class ContactHelper:
         return Contact(lastname=lastname, name=name, id=id,
                        homephone=homephone, mobilephone=mobilephone, workphone=workphone, secondaryphone=secondaryphone,
                        email=email, email2=email2, email3=email3)
+
+
+    def add_contact_to_group(self):
+        wd = self.app.wd
+        self.return_to_edit_entry_page()
+        self.select_first_contact()
+        wd.find_element_by_name("to_group").click()
+        Select(wd.find_element_by_name("to_group")).select_by_visible_text("NEW test_modify")
+        wd.find_element_by_xpath("(//option[@value='203'])[2]").click()
+        wd.find_element_by_name("add").click()
+
+    def choose_group_from_main_page(self):
+        wd = self.app.wd
+        self.return_to_edit_entry_page()
+        wd.find_element_by_name("group").click()
+        Select(wd.find_element_by_name("group")).select_by_visible_text("NEW test_modify")
+        wd.find_element_by_xpath("//option[@value='203']").click()
+        list = []
+        for row in wd.find_elements_by_name("entry"):
+            cells = row.find_elements_by_tag_name("td")
+            lastname = cells[1].text
+            name = cells[2].text
+            id = cells[0].find_element_by_name("selected[]").get_attribute("value")
+        return (list.append(Contact(name=name, lastname=lastname, id=id)))
+
+
 
