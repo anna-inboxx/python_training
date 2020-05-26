@@ -55,8 +55,20 @@ class ContactHelper:
         wd.switch_to_alert().accept()
         self.contact_cache = None
 
+    def modify_contact_by_id(self, id, contact):
+         wd = self.app.wd
+         self.return_to_edit_entry_page()
+         self.select_contact_by_id(id)
+         wd.find_element_by_xpath('//a[@href ="edit.php?id=%s"]' % id).click()
+         #wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
+            # delete and put new values
+         self.fill_contact_form(contact)
+            # click update
+         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
+         wd.find_element_by_link_text("home page").click()
+         self.contact_cache = None
 
-# неверный селектор?
+
     def select_contact_by_id(self,id):
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
@@ -65,13 +77,13 @@ class ContactHelper:
         wd = self.app.wd
         self.select_contact_by_index(0)
 
-    def fill_contact_form(self,contact):
+    def fill_contact_form(self, contact):
         wd = self.app.wd
-        self.change_field_value("name",contact.name)
-        self.change_field_value("middlename",contact.middlename)
-        self.change_field_value("lastname",contact.lastname)
-        self.change_field_value("homephone",contact.homephone)
-        self.change_field_value("email",contact.email)
+        self.change_field_value("name", contact.name)
+        self.change_field_value("middlename", contact.middlename)
+        self.change_field_value("lastname", contact.lastname)
+        self.change_field_value("homephone", contact.homephone)
+        self.change_field_value("email", contact.email)
 
     def select_first_contact(self):
         wd = self.app.wd
