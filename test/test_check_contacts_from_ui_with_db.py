@@ -1,4 +1,6 @@
 
+
+
 def test_check_contacts_ui_with_db(app,db):
     contact_from_home_page = app.contact.get_contact_list()
     contact_from_db = db.get_contact_list()
