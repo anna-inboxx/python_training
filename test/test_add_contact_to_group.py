@@ -1,46 +1,37 @@
 from model.group import Group
 from model.contact import Contact
 from fixture.orm import ORMFixture
-import random
+from random import randrange
 
-
-#добавляем контакт в группу
-# На главной странице выбираем контакт (выбираем первый контакт или случайный)
-#через интерфейс добавляем его в определенную группу (след нужно передать параметр групп?
-#вызываем метод get contact in group указываем номер группы
-# отлифльтровать список на главной странице по названию группы, открыть список в бд ерез assert  проверям, что совпадает
-
-#или просто вызывам метод и выводим на экран спислк контактов в группе и смотрим
-
-#def test_add_contact_to_group(app, db):
-#    app.contact.add_contact_to_group()
-#    list_group_ui = app.contact.choose_group_from_main_page()
-#    db = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
-#    l = db.get_contacts_in_group(Group(id="203"))
-#    for item in l:
-#        print(item)
-
-
-#добавляем новый контакт, добавлякм контакт в опр группу (id 226), затем сравниваем количество по БД общее количество контактов с контактами в группе и вне ее
-
-db = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
 def test_add_contact_to_group(app):
-    if len(db.get_contact_list()) == 0:
-        app.contact.create_new_contact(Contact(name="John", lastname="Smuth"))
-    old_contacts = db.get_contact_list()
-    contact = random.choice(old_contacts)
-    app.contact.add_contact_to_group_by_id(contact.id)
-    assert len(old_contacts) == len(db.get_contacts_in_group(Group(id="226"))) + len(db.get_contacts_not_in_group(Group(id="226")))
+    db = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
+    #Проверяем наличие групп и контактов (что в приложении есть хотя бы одна группа и один контакт).
+    group_list = db.get_group_list()
+    if len(group_list) == 0:
+        app.group.create(Group(name="For adding contact"))
+        group_list = db.get_group_list()
 
-def test_delete_contact_from_group(app):
-    if len(db.get_contact_list()) == 0:
-        app.contact.create_new_contact(Contact(name="John", lastname="Smuth"))
-    old_contacts = db.get_contact_list()
-    contact = random.choice(old_contacts)
-    app.contact.delete_contact_from_group(contact.id)
-    assert len(old_contacts) == len(db.get_contacts_in_group(Group(id="226"))) + len(db.get_contacts_not_in_group(Group(id="226")))
+    group = group_list[randrange(len(group_list))]
+
+    #проверить, что существуют контакты, которые можно добавить в группу (и предварительно создавать новый контакт или группу, если все контакты добавлены во все группы).
+    contact_list = db.get_contacts_in_group(group)
+    if len(contact_list) == 0:
+        contacts_not_in_gr = db.get_contacts_not_in_group(group)
+        app.contact.create_new_contact(Contact(name="Add to group", lastname="Smuth"))
+        contact_list = db.get_contacts_not_in_group(group)
+
+    #Для всех тестов надо вместо первой попавшейся группы и контакта выбирать именно такой контакт, который можно добавить в группу или удалить из группы.
+    contact = contact_list[randrange(len(contact_list))]
+    old_contacts_in_group = db.get_contacts_in_group(group)
+
+    app.contact.add_contact_to_group_by_id(contact.id, group.id)
+
+    old_contacts_in_group.append(contact)
+    #Сравнивать надо изменившиеся списки групп контакта (который добавляем или удаляем из группы), или списки контактов, состоящих в той группе, которую добавляли или удаляли контакт.
+    new_contacts_in_group = db.get_contacts_in_group(group)
+    assert sorted(old_contacts_in_group, key=Contact.id_or_max) == sorted(new_contacts_in_group, key=Contact.id_or_max)
 
 
 
