@@ -1,6 +1,6 @@
 from model.contact import Contact
 import re
-from selenium.webdriver.support.ui import Select
+import time
 
 
 class ContactHelper:
@@ -177,21 +177,22 @@ class ContactHelper:
                        email=email, email2=email2, email3=email3)
 
 
-    def add_contact_to_group_by_id(self, id):
+    def add_contact_to_group_by_id(self, contact_id, group_id):
         wd = self.app.wd
         self.return_to_edit_entry_page()
-        self.select_contact_by_id(id)
+        self.select_contact_by_id(contact_id)
         wd.find_element_by_name("to_group").click()
-        Select(wd.find_element_by_name("to_group")).select_by_visible_text("GROUP FOR TEST")
-        wd.find_element_by_xpath("(//option[@value='226'])[2]").click()
+        wd.find_element_by_css_selector("select[name='to_group'] > option[value='%s']" % group_id).click()
         wd.find_element_by_name("add").click()
+        self.return_to_edit_entry_page()
 
-    def delete_contact_from_group(self, id):
+
+    def delete_contact_from_group(self, contact_id, group_id):
         wd = self.app.wd
         self.return_to_edit_entry_page()
         wd.find_element_by_name("group").click()
-        Select(wd.find_element_by_name("group")).select_by_visible_text("GROUP FOR TEST")
-        wd.find_element_by_xpath("//option[@value='226']").click()
+        wd.find_element_by_css_selector("select[name='group'] > option[value='%s']" % group_id).click()
         time.sleep(3)
-        self.select_contact_by_id(id)
+        self.select_contact_by_id(contact_id)
         wd.find_element_by_name("remove").click()
+        self.return_to_edit_entry_page()
