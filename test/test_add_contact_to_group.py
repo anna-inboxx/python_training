@@ -16,9 +16,8 @@ def test_add_contact_to_group(app):
     group = group_list[randrange(len(group_list))]
 
     #проверить, что существуют контакты, которые можно добавить в группу (и предварительно создавать новый контакт или группу, если все контакты добавлены во все группы).
-    contact_list = db.get_contacts_in_group(group)
+    contact_list = db.get_contacts_not_in_group(group)
     if len(contact_list) == 0:
-        contacts_not_in_gr = db.get_contacts_not_in_group(group)
         app.contact.create_new_contact(Contact(name="Add to group", lastname="Smuth"))
         contact_list = db.get_contacts_not_in_group(group)
 
