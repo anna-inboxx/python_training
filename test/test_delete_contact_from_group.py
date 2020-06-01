@@ -16,18 +16,16 @@ def test_delete_contact_from_group(app, db):
     group = group_list[randrange(len(group_list))]
 
     # Проверяем, что существуют контакты, которые можно удалить из группы (и предварительно создавать новый контакт или группу, если все контакты добавлены во все группы).
-    contact_not_in_group = db.get_contacts_not_in_group(group)
-    #предварительно cоздаем новый контакт или группу, если все контакты добавлены во все группы)
-    if len(contact_not_in_group) == 0:
-        app.contact.create(Contact(name="TEST123456789"))
-        contact_not_in_group = db.get_contacts_not_in_group(group)
-
-    new_contact = contact_not_in_group[randrange(len(contact_not_in_group))]
-    app.contact.add_contact_to_group_by_id(new_contact.id, group.id)
-
     contact_in_group = db.get_contacts_in_group(group)
+    if len(contact_in_group) == 0:
+        contacts_not_in_group = db.get_contacts_not_in_group(group)
+        if len(contacts_not_in_group) == 0:
+            app.contact.create(Contact(name="TEST123456789"))
+            contacts_not_in_group = db.get_contacts_not_in_group(group)
+        contact_added = contacts_not_in_group[randrange(len(contacts_not_in_group))]
+        app.contact.add_contact_to_group(contact_added.id, group.id)
+        contact_in_group = db.get_contacts_in_group(group)
 
-    # Для всех тестов надо вместо первой попавшейся группы и контакта выбирать именно такой контакт, который можно добавить в группу или удалить из группы.
     contact = contact_in_group[randrange(len(contact_in_group))]
     old_contacts_in_group = db.get_contacts_in_group(group)
 
